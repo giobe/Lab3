@@ -93,8 +93,9 @@ public class SegreteriaDAO {
 	}
 	
 	public boolean StudenteNelCorso(String matricola, String nomeCorso){
-		int m = Integer.parseInt(matricola);
+		
 		try {
+			int m = Integer.parseInt(matricola);
 			Connection conn = DriverManager.getConnection(jdbcURL);
 			Statement st = conn.createStatement();
 			String sql = "select matricola, c.nome from iscrizione i, corso c where  c.codins=i.codins AND c.nome=\""+nomeCorso+"\" AND matricola=\""+m+"\"";

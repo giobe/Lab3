@@ -2,8 +2,10 @@ package it.polito.tdp.lab3.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.lab3.model.Corso;
 import it.polito.tdp.lab3.model.Segreteria;
 import it.polito.tdp.lab3.model.Studente;
 import javafx.collections.FXCollections;
@@ -64,16 +66,43 @@ public class SegreteriaStudentiController {
     	String corso = bxCorso.getValue();
     	String matricola= txtMatricola.getText();
     	
-    	if(corso!=null && matricola!=null){
-    		
+    	if((corso.compareTo("")!=0) && matricola.isEmpty()==false){
+    		boolean res = model.cercaIscrizione(matricola, corso);
+    		if(res==true){
+    			Studente s = model.caricaDatiStudente(matricola);
+    			txtResult.setText("la matricola "+matricola+" "+s.getNome()+" "+s.getCognome()+" risulta iscritta al corso "+corso);
+    		}
+    		else if(res==false){
+    			Studente s = model.caricaDatiStudente(matricola);
+    			txtResult.setText("la matricola "+matricola+" "+s.getNome()+" "+s.getCognome()+"non risulta iscritta al corso "+corso);
+    		}
     	}
-    	else if(corso!=null && matricola==null){
-    		
+    	else if(corso!=null && matricola.isEmpty()==true && corso.compareTo("")!=0){
+    		LinkedList<Studente> studenti = (LinkedList<Studente>) model.StudentiPerCorso(corso);
+    		if(studenti.isEmpty()==true)
+    			txtResult.setText("Il corso non è frequentato da nessuno studente");
+    		else if(studenti.isEmpty()==false){
+    			String tot="";
+    			for(Studente s : studenti){
+    				tot=tot+s.toString();
+    			}
+    			txtResult.setText(tot);
+    		}
     	}
-    	else if(matricola!=null && corso==null){
-    		
+    	else if(matricola!=null && corso.compareTo("")==0){
+    		LinkedList<Corso> corsi = (LinkedList<Corso>) model.CorsiPerStudente(matricola);
+    		if(corsi.isEmpty()==true){
+    			txtResult.setText("lo studente non segue nessu corso");
+    		}
+    		else if(corsi.isEmpty()==false){
+    			String tot="";
+    			for(Corso s : corsi){
+    				tot=tot+s.toString();
+    			}
+    			txtResult.setText(tot);
+    		}
     	}
-    	else{
+    	else if(corso.compareTo("")==0 && matricola.isEmpty()==true){
     		txtResult.setText("inserire dati");
     	}
 
