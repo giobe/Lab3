@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.lab3.model.Segreteria;
+import it.polito.tdp.lab3.model.Studente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,21 +61,75 @@ public class SegreteriaStudentiController {
     
     @FXML
     void doCerca(ActionEvent event) {
+    	String corso = bxCorso.getValue();
+    	String matricola= txtMatricola.getText();
+    	
+    	if(corso!=null && matricola!=null){
+    		
+    	}
+    	else if(corso!=null && matricola==null){
+    		
+    	}
+    	else if(matricola!=null && corso==null){
+    		
+    	}
+    	else{
+    		txtResult.setText("inserire dati");
+    	}
 
     }
 
     @FXML
     void doDatiAssociati(ActionEvent event) {
+    	String matricola= txtMatricola.getText();
+    	if(matricola!=null){
+    	Studente s = model.caricaDatiStudente(matricola);
+    	if(s!=null){
+    	txtNome.setText(s.getNome());
+    	txtCognome.setText(s.getCognome());
+    	}
+    	else{
+    		txtNome.clear();
+    		txtCognome.clear();
+    	}
+    	}
+    	else{
+    		txtNome.clear();
+    		txtCognome.clear();
+    		//txtResult.setText(");
+    	}
 
     }
 
     @FXML
     void doIscrivi(ActionEvent event) {
+    	String corso = bxCorso.getValue();
+    	String matricola= txtMatricola.getText();
+    	if(corso==null || matricola==null){
+    		txtResult.setText("per poter inserire bisogna selezionare sia un corso che una matricola");
+    	}
+    	else{
+    		boolean ret = model.aggiungiIscrizione(matricola, corso);
+    		if(ret==true){
+    			Studente s = model.caricaDatiStudente(matricola);
+    			txtResult.setText("la matricola "+matricola+" "+s.getNome()+" "+s.getCognome()+" è stata iscritta al corso "+corso);
+    		}
+    		else if(ret==false){
+    			txtResult.setText("impossibile effettuare l'inserimento richiesto");
+    		}
+    	}
 
     }
 
     @FXML
     void doReset(ActionEvent event) {
+    	txtMatricola.clear();
+    	txtNome.clear();
+    	txtCognome.clear();
+    	txtResult.clear();
+    	/*int a = bxCorso.getItems().size();
+    	String q = bxCorso.getItems().get(a);
+    	bxCorso.setValue(q);*/
 
     }
 
