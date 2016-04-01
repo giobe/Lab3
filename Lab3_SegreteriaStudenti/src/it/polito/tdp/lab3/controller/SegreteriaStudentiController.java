@@ -67,6 +67,11 @@ public class SegreteriaStudentiController {
     	String matricola= txtMatricola.getText();
     	
     	if((corso.compareTo("")!=0) && matricola.isEmpty()==false){
+    		
+    		Studente start = model.caricaDatiStudente(matricola);
+    		if(start==null)
+    			txtResult.setText("matricola inserita non esistente");
+    		else{
     		boolean res = model.cercaIscrizione(matricola, corso);
     		if(res==true){
     			Studente s = model.caricaDatiStudente(matricola);
@@ -75,6 +80,7 @@ public class SegreteriaStudentiController {
     		else if(res==false){
     			Studente s = model.caricaDatiStudente(matricola);
     			txtResult.setText("la matricola "+matricola+" "+s.getNome()+" "+s.getCognome()+"non risulta iscritta al corso "+corso);
+    		}
     		}
     	}
     	else if(corso!=null && matricola.isEmpty()==true && corso.compareTo("")!=0){
@@ -90,6 +96,12 @@ public class SegreteriaStudentiController {
     		}
     	}
     	else if(matricola!=null && corso.compareTo("")==0){
+    		
+    		Studente start = model.caricaDatiStudente(matricola);
+    		if(start==null)
+    			txtResult.setText("matricola non esistente");
+    		else{
+    		
     		LinkedList<Corso> corsi = (LinkedList<Corso>) model.CorsiPerStudente(matricola);
     		if(corsi.isEmpty()==true){
     			txtResult.setText("lo studente non segue nessu corso");
@@ -100,6 +112,7 @@ public class SegreteriaStudentiController {
     				tot=tot+s.toString();
     			}
     			txtResult.setText(tot);
+    		}
     		}
     	}
     	else if(corso.compareTo("")==0 && matricola.isEmpty()==true){
