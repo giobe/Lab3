@@ -1,7 +1,12 @@
 package it.polito.tdp.lab3.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.lab3.model.Segreteria;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +16,10 @@ import javafx.scene.control.TextField;
 
 public class SegreteriaStudentiController {
 
+	
+	private Segreteria model;
+	
+	//ObservableList<String> list = (ObservableList<String>) FXCollections.observableArrayList(model.nomiCorsi());
     @FXML
     private ResourceBundle resources;
 
@@ -18,7 +27,7 @@ public class SegreteriaStudentiController {
     private URL location;
 
     @FXML
-    private ComboBox<?> bxCorso;
+    private ComboBox<String> bxCorso;
 
     @FXML
     private TextField txtMatricola;
@@ -44,6 +53,11 @@ public class SegreteriaStudentiController {
     @FXML
     private Button btnReset;
 
+    public void setModel(Segreteria model){
+    	this.model=model;
+    	bxCorso.getItems().addAll(model.nomiCorsi());
+    }
+    
     @FXML
     void doCerca(ActionEvent event) {
 
@@ -80,6 +94,10 @@ public class SegreteriaStudentiController {
         assert btnIscrivi != null : "fx:id=\"btnIscrivi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
         assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+       // bxCorso.setItems(list);
+       // for(String s : model.nomiCorsi()){
+        	//bxCorso.getItems().addAll(model.nomiCorsi());
+        
 
     }
 }
